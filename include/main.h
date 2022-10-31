@@ -47,7 +47,7 @@
 #define NANOS_IN_MSEC 1000000
 #define NANOS_IN_SEC 1000000000
 
->>>>>>> unknown_features
+
 #define MSEC_IN_NANO(MSEC) MSEC *NANOS_IN_MSEC
 
 #define DEFAULT_TICK 100
