@@ -57,7 +57,9 @@ typedef struct {
   int args[1];
   int verbose;
   int tick;
-} arguments_t:
+
+ arguments_t;
+
 
 void errno_abort(char *message) {
   perror(message);
@@ -143,7 +145,8 @@ void create_timer(int tick) {
 }
 
 void statemachine_callback(void) {
-  my_states_data **cur_data = states_get_data();
+
+  my_states_data *cur_data = states_get_data();
 
   int diff = cur_data->cur_val - cur_data->prev_val;
 
@@ -158,6 +161,8 @@ void statemachine_callback(void) {
 }
 
 int main(int argc, char **argv) {
+
+
   int error;
 
   srand(time(NULL)); /** Init random numbers */
@@ -175,12 +180,14 @@ int main(int argc, char **argv) {
          arguments.verbose ? "yes" : "no", arguments.tick);
 
   /** Initialize state machine */
-  states_add(state_probe, state_two_enter, state_two_run, state_two_ext,
+
+  states_add(timer_callback, NULL, state_one_run, NULL, state_first_x,
+             FIRST_STATE_NAME);
+  states_add(state_probe, state_two_enter, state_two_run, state_two_exit,
              state_second_e, SECOND_STATE_NAME);
   states_add(state_probe, NULL, state_three_run, NULL, state_third_e,
              THIRD_STATE_NAME);
-  states_add(state_probe, NULL, state_one_run, NULL, state_first_e,
-             FIRST_STATE_NAME);
+
 
   states_set_callback(statemachine_callback);
 
@@ -192,7 +199,8 @@ int main(int argc, char **argv) {
   create_timer(arguments.tick);
 
   error = pthread_mutex_lock(&mutex);
-  if (error = 0)
+
+  if (error== 0)
     err_abort(error, "Lock mutex");
 
   while (count < count_to) {
@@ -209,10 +217,10 @@ int main(int argc, char **argv) {
 
   printf("Finshed\n");
 
-  return;
+  return -1;
 }
 
-void err_abort(int status, char *message) {
+int err_abort(int status, char *message) {
   fprintf(stderr, "%s\n", message);
   exit(status);
   return 0;
