@@ -51,7 +51,7 @@ static struct argp_option options[] = {
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;    /** Condition variable */
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; /** Self explanatory */
 int count = 0;
-int *count_too = 0;
+int count_too = 0;
 
 typedef struct {
   int args[1];
